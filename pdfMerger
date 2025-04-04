@@ -1,0 +1,64 @@
+import tkinter as tk
+from tkinter import filedialog, messagebox, ttk
+from pypdf import PdfWriter  # <- ahora con pypdf
+
+archivos = []
+
+def seleccionar_archivos():
+    seleccionados = filedialog.askopenfilenames(filetypes=[("Archivos PDF", "*.pdf")])
+    if seleccionados:
+        archivos.clear()
+        archivos.extend(seleccionados)
+        lista.delete(0, tk.END)
+        for pdf in archivos:
+            lista.insert(tk.END, pdf)
+
+def fusionar():
+    if not archivos:
+        messagebox.showerror("Error", "No se seleccionaron archivos PDF")
+        return
+
+    salida = filedialog.asksaveasfilename(defaultextension=".pdf", filetypes=[("PDF", "*.pdf")])
+    if not salida:
+        return
+
+    try:
+        merger = PdfWriter()
+        for pdf in archivos:
+            merger.append(pdf)
+        merger.write(salida)
+        merger.close()
+        messagebox.showinfo("Éxito", f"PDFs fusionados en:\n{salida}")
+    except Exception as e:
+        messagebox.showerror("Error", f"No se pudo fusionar:\n{e}")
+
+app = tk.Tk()
+app.title("Fusionador de PDFs")
+app.geometry("450x350")
+app.resizable(False, False)
+
+estilo = ttk.Style(app)
+estilo.theme_use("clam")
+
+frame = ttk.Frame(app, padding=20)
+frame.pack(fill="both", expand=True)
+
+ttk.Label(frame, text="Fusionador de PDFs", font=("Segoe UI", 16)).pack(pady=(0, 15))
+
+btn_seleccionar = ttk.Button(frame, text="Seleccionar PDFs", command=seleccionar_archivos)
+btn_seleccionar.pack(fill="x")
+
+lista_frame = ttk.Frame(frame)
+lista_frame.pack(fill="both", expand=True, pady=10)
+
+scroll = ttk.Scrollbar(lista_frame)
+scroll.pack(side="right", fill="y")
+
+lista = tk.Listbox(lista_frame, height=8, yscrollcommand=scroll.set, font=("Segoe UI", 10))
+lista.pack(fill="both", expand=True)
+scroll.config(command=lista.yview)
+
+btn_fusionar = ttk.Button(frame, text="Fusionar PDFs", command=fusionar)
+btn_fusionar.pack(fill="x", pady=10)
+
+app.mainloop()
