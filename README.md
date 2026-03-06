@@ -1,0 +1,1 @@
+Instalar GhostScript es necesario para que esto funcione

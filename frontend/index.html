@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Delta PDF Tool</title>
+  <link rel="stylesheet" href="styles.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+</head>
+<body>
+  <div class="app">
+    <div class="sidebar">
+      <div class="logo">
+        DELTA<br>PDF
+      </div>
+      <button class="navbtn active" onclick="showTab('compress')">
+        <i class="fa-solid fa-compress"></i>
+        Compress
+      </button>
+      <button class="navbtn" onclick="showTab('merge')">
+        <i class="fa-solid fa-layer-group"></i>
+        Merge
+      </button>
+      <button class="navbtn" onclick="showTab('folder')">
+        <i class="fa-solid fa-folder"></i>
+        Compress Folder
+      </button>
+    </div>
+    <div class="main">
+      <h1>Delta PDF Tool</h1>
+      <div id="compress" class="tab active">
+        <h2>Compress PDF</h2>
+        <div class="dropzone">
+          <input type="file" id="compressFile" accept=".pdf">
+          <p>Drop PDF here or click to select</p>
+        </div>
+        <button class="action" onclick="compress()">
+          Compress PDF
+        </button>
+        <div class="status" id="compressStatus"></div>
+      </div>
+      <div id="merge" class="tab">
+        <h2>Merge PDFs</h2>
+        <div class="dropzone">
+          <input type="file" id="mergeFiles" accept=".pdf" multiple>
+          <p>Select multiple PDFs</p>
+        </div>
+        <button class="action" onclick="merge()">
+          Merge PDFs
+        </button>
+        <div class="status" id="mergeStatus"></div>
+      </div>
+      <div id="folder" class="tab">
+        <h2>Compress Entire Folder</h2>
+        <div class="dropzone">
+          <input type="file" id="folderSelect" webkitdirectory directory>
+          <p>Select a folder containing PDFs</p>
+        </div>
+        <button class="action" onclick="compressFolder()">
+          Compress Folder
+        </button>
+        <div class="status" id="folderStatus"></div>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
